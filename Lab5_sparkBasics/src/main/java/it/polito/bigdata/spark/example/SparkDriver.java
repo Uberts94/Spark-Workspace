@@ -15,12 +15,14 @@ public class SparkDriver {
 
 
 		String inputPath;
-		String outputPath;
+		String outputPath1;
+		String outputPath2;
 		String prefix;
 		
 		inputPath=args[0];
-		outputPath=args[1];
-		prefix=args[2];
+		outputPath1=args[1];
+		outputPath2=args[2];
+		prefix=args[3];
 
 		//SETUP FOR LOCAL MAVEN_APPLICATION RUN
 		// Create a configuration object and set the name of the application
@@ -44,14 +46,31 @@ public class SparkDriver {
 			String[] entries = line.split("\t+");
 			return entries[0].startsWith(prefix);
 		});
-		filteredRDD.saveAsTextFile(outputPath);
+		filteredRDD.saveAsTextFile(outputPath1);
 		
-		//Task 2: printing on the stdout some statistics
-		System.out.println("Number of selected lines: "+filteredRDD.count());
-		System.out.println("Maximum frequency: "+filteredRDD.map(line -> {
+		int maxFrequency = filteredRDD.map(line -> {
 			String[] entries = line.split("\t+");
 			return new Integer(Integer.parseInt(entries[1]));
-		}).top(1));
+		}).top(1).get(0);
+		
+		//printing on the stdout some statistics
+		System.out.println("Maximum frequency: "+maxFrequency);
+		System.out.println("Number of selected lines filter 1: "+filteredRDD.count());
+		
+		//Task 2: filtering filteredRDD to select lines containing words with a frequency 
+		// greater than 80% of the maximum frequency
+		JavaRDD<String> filtered2RDD = filteredRDD.filter(line -> {
+			String[] entries = line.split("\t+");
+			if(Double.parseDouble(entries[1]) > maxFrequency*0.8) return true;
+			else return false;
+		}).map(line -> {
+			String[] entries = line.split("\t+");
+			return entries[0];
+		});
+		filtered2RDD.saveAsTextFile(outputPath2);
+		
+		//printing on the stdout some statistics
+		System.out.println("Number of selected lines filter 2: "+filtered2RDD.count());
 		
 		// Close the Spark context
 		sc.close();
