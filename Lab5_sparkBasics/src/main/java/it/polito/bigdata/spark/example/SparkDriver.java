@@ -39,11 +39,12 @@ public class SparkDriver {
 		// (i.e, one pair "word\tfreq")  
 		JavaRDD<String> wordFreqRDD = sc.textFile(inputPath);
 
-		/*
-		 * Task 1
-		 .......
-		 .......
-		*/
+		// Task 1: filtering input lines containing words that start with the specified prefix
+		JavaRDD<String> filteredRDD = wordFreqRDD.filter(line -> {
+			String[] entries = line.split("\t+");
+			return entries[0].startsWith(prefix);
+		});
+		filteredRDD.saveAsTextFile(outputPath);
 		
 		/*
 		 * Task 2
