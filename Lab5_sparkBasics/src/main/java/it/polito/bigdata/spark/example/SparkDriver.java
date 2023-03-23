@@ -22,7 +22,7 @@ public class SparkDriver {
 		outputPath=args[1];
 		prefix=args[2];
 
-		//SETUP FOR LOCAL APPLICATION RUN
+		//SETUP FOR LOCAL MAVEN_APPLICATION RUN
 		// Create a configuration object and set the name of the application
 		SparkConf conf=new SparkConf().setAppName("Spark Lab5_sparkBasics").setMaster("local");
 		
