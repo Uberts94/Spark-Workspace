@@ -26,11 +26,11 @@ public class SparkDriver {
 
 		//SETUP FOR LOCAL MAVEN_APPLICATION RUN
 		// Create a configuration object and set the name of the application
-		SparkConf conf=new SparkConf().setAppName("Spark Lab5_sparkBasics").setMaster("local");
+		//SparkConf conf=new SparkConf().setAppName("Spark Lab5_sparkBasics").setMaster("local");
 		
 		//SETUP FOR CLUSTER APPLICATION RUN
 		// Create a configuration object and set the name of the application
-		//SparkConf conf=new SparkConf().setAppName("Spark Lab5_sparkBasics");
+		SparkConf conf=new SparkConf().setAppName("Spark Lab5_sparkBasics");
 		
 		// Create a Spark Context object
 		JavaSparkContext sc = new JavaSparkContext(conf);
