@@ -22,14 +22,13 @@ public class SparkDriver {
 		outputPath=args[1];
 		prefix=args[2];
 
-	
+		//SETUP FOR LOCAL APPLICATION RUN
 		// Create a configuration object and set the name of the application
-		SparkConf conf=new SparkConf().setAppName("Spark Lab #5");
+		SparkConf conf=new SparkConf().setAppName("Spark Lab5_sparkBasics").setMaster("local");
 		
-		// Use the following command to create the SparkConf object if you want to run
-		// your application inside Eclipse.
-		// Remember to remove .setMaster("local") before running your application on the cluster
-		// SparkConf conf=new SparkConf().setAppName("Spark Lab #5").setMaster("local");
+		//SETUP FOR CLUSTER APPLICATION RUN
+		// Create a configuration object and set the name of the application
+		//SparkConf conf=new SparkConf().setAppName("Spark Lab5_sparkBasics").setMaster("local");
 		
 		// Create a Spark Context object
 		JavaSparkContext sc = new JavaSparkContext(conf);
