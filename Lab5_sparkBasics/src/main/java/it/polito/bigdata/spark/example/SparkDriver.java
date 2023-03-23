@@ -28,7 +28,7 @@ public class SparkDriver {
 		
 		//SETUP FOR CLUSTER APPLICATION RUN
 		// Create a configuration object and set the name of the application
-		//SparkConf conf=new SparkConf().setAppName("Spark Lab5_sparkBasics").setMaster("local");
+		//SparkConf conf=new SparkConf().setAppName("Spark Lab5_sparkBasics");
 		
 		// Create a Spark Context object
 		JavaSparkContext sc = new JavaSparkContext(conf);
@@ -46,12 +46,13 @@ public class SparkDriver {
 		});
 		filteredRDD.saveAsTextFile(outputPath);
 		
-		/*
-		 * Task 2
-		 .......
-		 .......
-		 */
-
+		//Task 2: printing on the stdout some statistics
+		System.out.println("Number of selected lines: "+filteredRDD.count());
+		System.out.println("Maximum frequency: "+filteredRDD.map(line -> {
+			String[] entries = line.split("\t+");
+			return new Integer(Integer.parseInt(entries[1]));
+		}).top(1));
+		
 		// Close the Spark context
 		sc.close();
 	}
