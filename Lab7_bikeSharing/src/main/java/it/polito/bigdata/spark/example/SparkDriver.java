@@ -81,8 +81,6 @@ public class SparkDriver {
 					);
 		});
 		
-		//criticalTimestamp.saveAsTextFile(outputFolder);
-		
 		JavaRDD<String> stationsRDD = sc.textFile(inputPath2);
 		
 		// Store in resultKML one String, representing a KML marker, for each station 
