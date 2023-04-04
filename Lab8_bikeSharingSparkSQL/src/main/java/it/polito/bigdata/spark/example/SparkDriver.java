@@ -24,7 +24,7 @@ public class SparkDriver {
 		outputFolder = args[3];
 
 		// Create a Spark Session object and set the name of the application
-		SparkSession ss = SparkSession.builder().appName("Spark Lab #8 - Template").getOrCreate();
+		SparkSession ss = SparkSession.builder().master("local").appName("Spark Lab #8 - Template").getOrCreate();
 
 		// Invoke .master("local") to execute tha application locally inside Eclipse
 		// SparkSession ss = SparkSession.builder().master("local").appName("Spark Lab #8 - Template").getOrCreate();
