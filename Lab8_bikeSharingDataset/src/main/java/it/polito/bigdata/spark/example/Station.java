@@ -2,15 +2,16 @@ package it.polito.bigdata.spark.example;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Station implements Serializable{
-	private String id;
-	private String longitude, latitude, name;
+	private int id;
+	private String longitude, latitude;
 	
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 	
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	
@@ -23,18 +24,10 @@ public class Station implements Serializable{
 	}
 	
 	public String getLatitude() {
-		return longitude;
+		return latitude;
 	}
 	
 	public void setLatitude(String latitude) {
 		this.latitude = new String(latitude);
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = new String(name);
 	}
 }
