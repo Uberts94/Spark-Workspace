@@ -2,6 +2,7 @@ package it.polito.bigdata.spark.example;
 
 import org.apache.spark.sql.SparkSession;
 import org.apache.spark.sql.Column;
+import org.apache.spark.sql.DataFrameReader;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Encoders;
 import org.apache.spark.sql.RelationalGroupedDataset;
@@ -19,22 +20,23 @@ public class SparkDriver {
 		String outputFolder;
 
 		inputPath = args[0];
-		inputPath2 = args[1];
-		threshold = Double.parseDouble(args[2]);
-		outputFolder = args[3];
+		//inputPath2 = args[1];
+		//threshold = Double.parseDouble(args[2]);
+		//outputFolder = args[3];
+		outputFolder = args[1];
 
 		// Create a Spark Session object and set the name of the application
 		SparkSession ss = SparkSession.builder().master("local").appName("Spark Lab #8 - Template").getOrCreate();
 
 		// Invoke .master("local") to execute tha application locally inside Eclipse
 		// SparkSession ss = SparkSession.builder().master("local").appName("Spark Lab #8 - Template").getOrCreate();
+		Dataset<Row>  stationTimestamps = ss.read().format("csv").option("header", true).option("inferSchema", true)
+				.load();
 
-
-		// TODO
-		// .....
-		// .....
-		// .....
-
+		
+		
+		stationTimestamps.write().format("csv").option("header", true).save(outputFolder);
+		
 		// Close the Spark session
 		ss.stop();
 	}
