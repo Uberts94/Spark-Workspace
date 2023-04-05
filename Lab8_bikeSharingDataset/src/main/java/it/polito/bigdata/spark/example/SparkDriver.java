@@ -5,11 +5,10 @@ import org.apache.spark.sql.types.DataTypes;
 
 import java.sql.Timestamp;
 
+import org.apache.spark.sql.Column;
 import org.apache.spark.sql.Dataset;
-import org.apache.spark.sql.Encoders;
 import org.apache.spark.sql.Row;
 import static org.apache.spark.sql.functions.sum;
-import static org.apache.spark.sql.functions.count;
 
 public class SparkDriver {
 
@@ -42,6 +41,14 @@ public class SparkDriver {
 		
 		ss.udf().register("counter", (Integer i) -> i, DataTypes.IntegerType);	
 		
+		ss.udf().register("day", (String t) -> {
+			return t.split("-")[0];
+		}, DataTypes.StringType);
+		
+		ss.udf().register("hour", (String t) -> {
+			return t.split("-")[1];
+		}, DataTypes.StringType);
+		
 		Dataset<Row> timestamps = ss.read().format("csv").option("delimiter", "\t").option("header", true).option("inferSchema", true)
 												.load(inputPath)
 												.filter(row -> {
@@ -61,7 +68,13 @@ public class SparkDriver {
 		Dataset<Row> stations = ss.read().format("csv").option("delimiter",  "\t").option("header", true).option("inferSchema", true)
 										.load(inputPath2).select("id", "longitude", "latitude");
 		
-		timestamps.show();
+		Dataset<Row> result = timestamps.join(stations, timestamps.col("station").equalTo(stations.col("id")))
+										.selectExpr("station", "day(timestamp) as dayOfWeek", "hour(timestamp) as hour",
+												"criticality", "longitude", "latitude")
+										.sort(new Column("criticality").desc(), new Column("station"), new Column("hour"));	
+		
+		result.show();
+		result.write().format("csv").option("header", true).save(outputFolder);
 
 		// Close the Spark session
 		ss.stop();
