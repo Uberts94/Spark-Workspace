@@ -105,15 +105,13 @@ public class DateTool {
 		return dayOfTheWeek;
 	}
 
-	public static String hour(String date) {
+	public static int hour(Timestamp date) {
 
-//		Date d = new Date(date.getTime());
-//		Calendar cal = Calendar.getInstance();
-//
-//		cal.setTime(d);
-//
-//		return cal.get(Calendar.HOUR_OF_DAY);
-		return date.split(" ")[0].split(":")[0];
+		Date d = new Date(date.getTime());
+		Calendar cal = Calendar.getInstance();
+
+		cal.setTime(d);
+
+		return cal.get(Calendar.HOUR_OF_DAY);
 	}
-
 }
